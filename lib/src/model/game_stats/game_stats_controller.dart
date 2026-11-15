@@ -41,7 +41,7 @@ final gameStatsEntriesProvider = FutureProvider.family<List<GameStatsEntry>, Use
   UserId userId,
 ) async {
   final storage = await ref.watch(gameStatsStorageProvider.future);
-  return storage.fetchAll(userId);
+  return await storage.fetchAll(userId);
 }, name: 'GameStatsEntriesProvider');
 
 /// The statistics of the games of a user matching the filters.
@@ -96,7 +96,7 @@ class const GameStatsSyncState({
   );
 }
 
-enum GameStatsError {
+enum GameStatsError() {
   /// The user does not exist.
   userNotFound,
 

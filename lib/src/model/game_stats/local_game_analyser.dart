@@ -27,8 +27,8 @@ const kStatsSearchTime = Duration(milliseconds: 350);
 const _kEngineStartTimeout = Duration(seconds: 20);
 
 /// The context of the evaluator analysing the games of the statistics.
-final kGameStatsEvaluationContext = EvaluationContext(
-  id: const StringId('game-stats'),
+const kGameStatsEvaluationContext = EvaluationContext(
+  id: StringId('game-stats'),
   variant: Variant.standard,
   initialPosition: Chess.initial,
 );

@@ -13,10 +13,10 @@ const kGameStatsPerfs = [
   Perf.correspondence,
 ];
 
-enum GameOutcome { win, draw, loss }
+enum GameOutcome() { win, draw, loss }
 
 /// Where the analysis of a game comes from.
-enum GameAnalysisSource {
+enum GameAnalysisSource() {
   /// Not analysed yet.
   none,
 
@@ -199,16 +199,12 @@ GameStatsEntry? gameStatsEntryFromServerJson(Map<String, dynamic> json, UserId u
 const _unfinishedStatuses = {'created', 'started', 'aborted', 'noStart', 'unknownFinish'};
 
 /// A period of time the statistics are filtered on.
-enum StatsPeriod {
+enum StatsPeriod(final int? days) {
   week(7),
   month(30),
   threeMonths(90),
   year(365),
-  all(null);
-
-  const StatsPeriod(this.days);
-
-  final int? days;
+  all(null),
 }
 
 /// The filters of the statistics.
@@ -225,15 +221,12 @@ class const GameStatsFilter({
       (side == null || entry.side == side) &&
       (period.days == null || entry.createdAt.isAfter(now.subtract(Duration(days: period.days!))));
 
-  GameStatsFilter copyWith({
-    Perf? Function()? perf,
-    Side? Function()? side,
-    StatsPeriod? period,
-  }) => GameStatsFilter(
-    perf: perf != null ? perf() : this.perf,
-    side: side != null ? side() : this.side,
-    period: period ?? this.period,
-  );
+  GameStatsFilter copyWith({Perf? Function()? perf, Side? Function()? side, StatsPeriod? period}) =>
+      GameStatsFilter(
+        perf: perf != null ? perf() : this.perf,
+        side: side != null ? side() : this.side,
+        period: period ?? this.period,
+      );
 
   @override
   bool operator ==(Object other) =>
@@ -247,7 +240,7 @@ class const GameStatsFilter({
 }
 
 /// How long a [StatsBucket] of the timeline lasts.
-enum StatsBucketSize { day, week, month }
+enum StatsBucketSize() { day, week, month }
 
 /// The statistics of the analysed games of one period of the timeline.
 class const StatsBucket({
@@ -293,8 +286,7 @@ class const GameStatsSummary({
   int count(MoveQuality quality) => qualities[quality] ?? 0;
 
   /// The share of [quality] among the classified moves, from 0 to 1.
-  double share(MoveQuality quality) =>
-      classifiedMoves == 0 ? 0 : count(quality) / classifiedMoves;
+  double share(MoveQuality quality) => classifiedMoves == 0 ? 0 : count(quality) / classifiedMoves;
 
   /// The share of brilliant, great, best and excellent moves among the classified moves.
   double get strongShare => classifiedMoves == 0
@@ -308,11 +300,7 @@ class const GameStatsSummary({
   /// The maximum number of buckets of the timeline.
   static const maxBuckets = 24;
 
-  factory compute(
-    Iterable<GameStatsEntry> entries,
-    GameStatsFilter filter,
-    DateTime now,
-  ) {
+  factory compute(Iterable<GameStatsEntry> entries, GameStatsFilter filter, DateTime now) {
     var games = 0;
     var wins = 0;
     var draws = 0;
@@ -384,8 +372,7 @@ class const GameStatsSummary({
     }
 
     final buckets = [
-      for (final MapEntry(key: start, value: group) in groups.entries)
-        _bucket(start, group),
+      for (final MapEntry(key: start, value: group) in groups.entries) _bucket(start, group),
     ];
     final skip = buckets.length > maxBuckets ? buckets.length - maxBuckets : 0;
     return (buckets.sublist(skip), size);

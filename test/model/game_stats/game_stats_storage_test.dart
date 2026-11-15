@@ -53,9 +53,7 @@ void main() {
 
     // But an analysis replaces a game awaiting one.
     await storage.saveAll(me, [_entry('bbbbbbbb', DateTime(2026, 1, 2), GameAnalysisSource.none)]);
-    await storage.saveAll(me, [
-      _entry('bbbbbbbb', DateTime(2026, 1, 2), GameAnalysisSource.local),
-    ]);
+    await storage.saveAll(me, [_entry('bbbbbbbb', DateTime(2026, 1, 2), GameAnalysisSource.local)]);
     expect(await storage.fetchAwaitingAnalysis(me), isEmpty);
   });
 

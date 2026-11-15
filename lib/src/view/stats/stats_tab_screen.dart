@@ -199,7 +199,7 @@ class _BodyState() extends ConsumerState<_Body> {
 }
 
 /// The side filter choices: [Side] is not nullable in a [PlatformSegmentedControl].
-enum _SideChoice { both, white, black }
+enum _SideChoice() { both, white, black }
 
 class const _Filters() extends ConsumerWidget {
   @override
@@ -220,7 +220,8 @@ class const _Filters() extends ConsumerWidget {
               Expanded(
                 child: _FilterButton(
                   icon: Icons.timer_outlined,
-                  label: filter.perf?.label(context.l10n) ??
+                  label:
+                      filter.perf?.label(context.l10n) ??
                       _t(context, 'All time controls', 'Alle Bedenkzeiten'),
                   onPressed: () => showChoicePicker<Perf?>(
                     context,
@@ -635,10 +636,7 @@ class const _TimelineSection(final GameStatsSummary summary) extends StatelessWi
       (
         _t(context, 'Errors', 'Fehler'),
         LichessColors.blunder,
-        [
-          for (final (i, bucket) in timeline.indexed)
-            FlSpot(i.toDouble(), bucket.errorShare * 100),
-        ],
+        [for (final (i, bucket) in timeline.indexed) FlSpot(i.toDouble(), bucket.errorShare * 100)],
       ),
     ];
 

@@ -6,7 +6,7 @@ import 'package:dartchess/dartchess.dart';
 ///
 /// Lichess only judges inaccuracies, mistakes and blunders. The other qualities are derived from
 /// the evaluations of the positions before and after the move, see [classifyMoves].
-enum MoveQuality {
+enum MoveQuality() {
   brilliant,
   great,
   best,
@@ -173,8 +173,7 @@ GameClassification classifyMoves({
     MoveQuality? quality;
     if (before != null && afterChances != null) {
       final loss = math.max(0.0, before - afterChances);
-      final judgment =
-          plyAnalysis?.judgment ?? (computeJudgments ? _judgmentFromLoss(loss) : null);
+      final judgment = plyAnalysis?.judgment ?? (computeJudgments ? _judgmentFromLoss(loss) : null);
       final playedBest = plyAnalysis?.bestMove != null && plyAnalysis!.bestMove == move.uci;
 
       if (judgment != null) {

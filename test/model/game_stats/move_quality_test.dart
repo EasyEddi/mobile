@@ -11,8 +11,8 @@ void main() {
 
     test('clamps centipawns and ranks mates above them', () {
       expect(whiteWinningChances(cp: 1000), whiteWinningChances(cp: 5000));
-      expect(whiteWinningChances(mate: 1)!, greaterThan(whiteWinningChances(cp: 1000)!));
-      expect(whiteWinningChances(mate: -1)!, lessThan(whiteWinningChances(cp: -1000)!));
+      expect(whiteWinningChances(mate: 1), greaterThan(whiteWinningChances(cp: 1000)!));
+      expect(whiteWinningChances(mate: -1), lessThan(whiteWinningChances(cp: -1000)!));
     });
 
     test('is null without an eval', () {
@@ -95,7 +95,7 @@ void main() {
         MoveQuality.great,
       ]);
       expect(result.accuracy, isNotNull);
-      expect(result.accuracy!, greaterThan(90));
+      expect(result.accuracy, greaterThan(90));
     });
 
     test('judges the moves itself for a local analysis', () {
@@ -149,6 +149,6 @@ void main() {
   test('gameAccuracy', () {
     expect(gameAccuracy([]), isNull);
     expect(gameAccuracy([100, 100]), 100);
-    expect(gameAccuracy([100, 50])!, lessThan(75));
+    expect(gameAccuracy([100, 50]), lessThan(75));
   });
 }

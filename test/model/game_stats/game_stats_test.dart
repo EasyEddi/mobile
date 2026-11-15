@@ -163,7 +163,7 @@ void main() {
     test('builds a timeline of the analysed games', () {
       final older = GameStatsEntry(
         id: const GameId('cccccccc'),
-        createdAt: DateTime(2026, 3, 2),
+        createdAt: DateTime(2026, 1, 2),
         perf: Perf.blitz,
         side: Side.black,
         outcome: GameOutcome.draw,
@@ -175,7 +175,7 @@ void main() {
       final summary = GameStatsSummary.compute([analysed, older], const GameStatsFilter(), now);
       expect(summary.bucketSize, StatsBucketSize.month);
       expect(summary.timeline, hasLength(2));
-      expect(summary.timeline.first.start, DateTime(2026, 3));
+      expect(summary.timeline.first.start, DateTime(2026, 1));
       expect(summary.timeline.first.errorShare, 0.5);
       expect(summary.timeline.last.accuracy, 80);
     });
