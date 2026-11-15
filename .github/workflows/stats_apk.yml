@@ -65,6 +65,32 @@ jobs:
             test/tab_navigation_test.dart test/app_test.dart 2>&1 | tee test.log
           exit ${PIPESTATUS[0]}
 
+      - name: Make the APK installable next to the Play Store app
+        # Only in this build: the profile APK otherwise has the id of the Play Store app
+        # (org.lichess.mobileV2), which Android refuses to replace with an APK signed by another key.
+        run: |
+          # The same signing key for every build, so that a new APK installs over the previous one.
+          mkdir -p ~/.android
+          cp .github/stats/debug.keystore ~/.android/debug.keystore
+          sed -i 's/^        debug {$/        maybeCreate("profile").applicationIdSuffix = ".stats"\n        debug {/' \
+            android/app/build.gradle.kts
+          grep -n 'applicationIdSuffix' android/app/build.gradle.kts
+          sed -i '0,/android:label="Lichess"/s//android:label="Lichess Stats"/' \
+            android/app/src/main/AndroidManifest.xml
+          python3 - <<'PY'
+          import copy, json
+          path = 'android/app/google-services.json'
+          data = json.load(open(path))
+          for suffix in ('.stats', '.debug'):
+              package = 'org.lichess.mobileV2' + suffix
+              packages = [c['client_info']['android_client_info']['package_name'] for c in data['client']]
+              if package not in packages:
+                  client = copy.deepcopy(data['client'][0])
+                  client['client_info']['android_client_info']['package_name'] = package
+                  data['client'].append(client)
+          json.dump(data, open(path, 'w'), indent=2)
+          PY
+
       - name: Build APK
         id: build
         continue-on-error: true
@@ -78,6 +104,9 @@ jobs:
             flutter build apk --debug $DEFINES 2>&1 | tee -a build.log
             cp build/app/outputs/flutter-apk/app-debug.apk lichess-statistiken.apk
           fi
+          AAPT2=$(ls -d "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1)
+          "$AAPT2" dump packagename lichess-statistiken.apk | tee -a build.log
+          "$AAPT2" dump packagename lichess-statistiken.apk | grep -qx 'org.lichess.mobileV2.stats\|org.lichess.mobileV2.debug'
 
       - name: Publish the APK
         id: release
@@ -97,7 +126,7 @@ jobs:
         run: |
           mkdir -p /tmp/logs
           cp format.log analyze.log test.log build.log /tmp/logs/ 2>/dev/null || true
-          git diff > /tmp/logs/format.diff || true
+          git diff -- lib test > /tmp/logs/format.diff || true
           cat > /tmp/logs/summary.txt <<EOF
           commit: ${{ github.sha }}
           format: ${{ steps.format.outcome }}
