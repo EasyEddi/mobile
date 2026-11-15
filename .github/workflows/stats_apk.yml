@@ -72,16 +72,16 @@ jobs:
           # The same signing key for every build, so that a new APK installs over the previous one.
           mkdir -p ~/.android
           cp .github/stats/debug.keystore ~/.android/debug.keystore
-          sed -i 's/^        debug {$/        maybeCreate("profile").applicationIdSuffix = ".stats"\n        debug {/' \
+          sed -i 's/applicationId = "org.lichess.mobileV2"/applicationId = "org.lichess.mobileV2.stats"/' \
             android/app/build.gradle.kts
-          grep -n 'applicationIdSuffix' android/app/build.gradle.kts
+          grep -n 'applicationId' android/app/build.gradle.kts
           sed -i '0,/android:label="Lichess"/s//android:label="Lichess Stats"/' \
             android/app/src/main/AndroidManifest.xml
           python3 - <<'PY'
           import copy, json
           path = 'android/app/google-services.json'
           data = json.load(open(path))
-          for suffix in ('.stats', '.debug'):
+          for suffix in ('.stats', '.stats.debug'):
               package = 'org.lichess.mobileV2' + suffix
               packages = [c['client_info']['android_client_info']['package_name'] for c in data['client']]
               if package not in packages:
@@ -106,7 +106,7 @@ jobs:
           fi
           AAPT2=$(ls -d "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1)
           "$AAPT2" dump packagename lichess-statistiken.apk | tee -a build.log
-          "$AAPT2" dump packagename lichess-statistiken.apk | grep -qx 'org.lichess.mobileV2.stats\|org.lichess.mobileV2.debug'
+          "$AAPT2" dump packagename lichess-statistiken.apk | grep -q '^org.lichess.mobileV2.stats'
 
       - name: Publish the APK
         id: release
