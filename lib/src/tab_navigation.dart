@@ -13,6 +13,7 @@ enum BottomTab() {
   puzzles,
   learn,
   watch,
+  stats,
   more;
 
   String label(AppLocalizations strings) {
@@ -25,6 +26,8 @@ enum BottomTab() {
         return strings.learnMenu;
       case BottomTab.watch:
         return strings.mobileWatchTab;
+      case BottomTab.stats:
+        return strings.stats;
       case BottomTab.more:
         return strings.more;
     }
@@ -40,6 +43,8 @@ enum BottomTab() {
         return Symbols.live_tv_rounded;
       case BottomTab.learn:
         return Symbols.school_rounded;
+      case BottomTab.stats:
+        return Symbols.bar_chart_rounded;
       case BottomTab.more:
         return Symbols.menu_rounded;
     }
@@ -59,6 +64,8 @@ final currentNavigatorKeyProvider = Provider<GlobalKey<NavigatorState>>((ref) {
       return learnNavigatorKey;
     case BottomTab.watch:
       return watchNavigatorKey;
+    case BottomTab.stats:
+      return statsNavigatorKey;
     case BottomTab.more:
       return moreNavigatorKey;
   }
@@ -75,6 +82,8 @@ final currentRootScrollControllerProvider = Provider<ScrollController>((ref) {
       return learnScrollController;
     case BottomTab.watch:
       return watchScrollController;
+    case BottomTab.stats:
+      return statsScrollController;
     case BottomTab.more:
       return moreScrollController;
   }
@@ -84,12 +93,14 @@ final homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final puzzlesNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'puzzles');
 final learnNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'learn');
 final watchNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'watch');
+final statsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'stats');
 final moreNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'more');
 
 final homeScrollController = ScrollController(debugLabel: 'HomeScroll');
 final puzzlesScrollController = ScrollController(debugLabel: 'PuzzlesScroll');
 final learnScrollController = ScrollController(debugLabel: 'learnScroll');
 final watchScrollController = ScrollController(debugLabel: 'WatchScroll');
+final statsScrollController = ScrollController(debugLabel: 'StatsScroll');
 final moreScrollController = ScrollController(debugLabel: 'MoreScroll');
 
 /// A [NavigatorObserver] that keeps track of the routes currently on the
@@ -500,6 +511,7 @@ final homeTabInteraction = BottomTabInteraction();
 final puzzlesTabInteraction = BottomTabInteraction();
 final learnTabInteraction = BottomTabInteraction();
 final watchTabInteraction = BottomTabInteraction();
+final statsTabInteraction = BottomTabInteraction();
 final moreTabInteraction = BottomTabInteraction();
 
 class const MainTabScaffoldProperties({

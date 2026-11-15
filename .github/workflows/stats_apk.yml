@@ -1,0 +1,120 @@
+name: Statistics tab APK
+
+# Builds an installable APK of the app with the statistics tab, pointed at lichess.org, and
+# publishes it as the "statistiken-apk" prerelease. It is installed next to the Play Store app
+# (application id org.lichess.mobileV2.debug).
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - stats-tab
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Check and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout mobile code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: gradle
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          flutter-version-file: pubspec.yaml
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Code generation
+        run: dart run build_runner build
+
+      - name: Format the changed files
+        id: format
+        continue-on-error: true
+        run: |
+          dart format lib/src/model/game_stats lib/src/view/stats lib/src/tab_navigation.dart \
+            lib/src/tab_scaffold.dart lib/src/db/database.dart test/model/game_stats \
+            test/db/database_test.dart 2>&1 | tee format.log
+
+      - name: Analyze
+        id: analyze
+        continue-on-error: true
+        run: flutter analyze 2>&1 | tee analyze.log; exit ${PIPESTATUS[0]}
+
+      - name: Test
+        id: test
+        continue-on-error: true
+        run: |
+          flutter test test/model/game_stats test/db test/model/model_layer_test.dart \
+            test/tab_navigation_test.dart test/app_test.dart 2>&1 | tee test.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Build APK
+        id: build
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          DEFINES="--dart-define=LICHESS_HOST=lichess.org --dart-define=LICHESS_WS_HOST=socket.lichess.org"
+          if flutter build apk --profile --target-platform android-arm64 $DEFINES 2>&1 | tee build.log; then
+            cp build/app/outputs/flutter-apk/app-profile.apk lichess-statistiken.apk
+          else
+            echo "Profile build failed, building a debug APK" | tee -a build.log
+            flutter build apk --debug $DEFINES 2>&1 | tee -a build.log
+            cp build/app/outputs/flutter-apk/app-debug.apk lichess-statistiken.apk
+          fi
+
+      - name: Publish the APK
+        id: release
+        if: steps.build.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete statistiken-apk --yes --cleanup-tag || true
+          gh release create statistiken-apk lichess-statistiken.apk \
+            --target "${{ github.sha }}" \
+            --prerelease \
+            --title "Lichess mit Statistiken-Tab" \
+            --notes "Selbst gebaute Lichess-App mit dem Tab „Statistiken“ (Commit ${{ github.sha }}). Wird neben der offiziellen App installiert."
+
+      - name: Publish the logs on the ci-logs branch
+        if: always()
+        run: |
+          mkdir -p /tmp/logs
+          cp format.log analyze.log test.log build.log /tmp/logs/ 2>/dev/null || true
+          git diff > /tmp/logs/format.diff || true
+          cat > /tmp/logs/summary.txt <<EOF
+          commit: ${{ github.sha }}
+          format: ${{ steps.format.outcome }}
+          analyze: ${{ steps.analyze.outcome }}
+          test: ${{ steps.test.outcome }}
+          build: ${{ steps.build.outcome }}
+          release: ${{ steps.release.outcome }}
+          EOF
+          tail -c 200000 /tmp/logs/build.log > /tmp/logs/build.tail.log 2>/dev/null || true
+          rm -f /tmp/logs/build.log
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan ci-logs
+          git rm -rf --cached . > /dev/null
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp /tmp/logs/* .
+          git add .
+          git commit -m "CI logs for ${{ github.sha }}"
+          git push -f origin ci-logs
+

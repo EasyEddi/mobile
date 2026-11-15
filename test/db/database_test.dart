@@ -61,7 +61,7 @@ void main() {
       final db = await openAppDatabase(databaseFactoryFfi, path);
       addTearDown(db.close);
 
-      expect(await db.getVersion(), 9);
+      expect(await db.getVersion(), 10);
       expect(await db.query('learn_progress'), hasLength(1));
       await db.insert('practice_progress', {
         'chapterId': 'dW7KIuoY',
@@ -106,12 +106,32 @@ void main() {
         final db = await openAppDatabase(databaseFactoryFfi, path);
         addTearDown(db.close);
 
-        expect(await db.getVersion(), 9);
+        expect(await db.getVersion(), 10);
         final rows = await db.query('http_log');
         expect(rows, hasLength(1));
         expect(rows.single, containsPair('cache', null));
         expect(rows.single, containsPair('responseSize', null));
       },
     );
+  });
+
+  group('App database v10', () {
+    test('has the game stats tables, indexed for the games awaiting an analysis', () async {
+      final db = await openAppDatabase(databaseFactoryFfi, inMemoryDatabasePath);
+      addTearDown(db.close);
+
+      final tables = await db.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE 'game_stats%'",
+      );
+      expect(tables.map((row) => row['name']), containsAll(['game_stats', 'game_stats_sync']));
+
+      final plan = await db.rawQuery(
+        'EXPLAIN QUERY PLAN SELECT data FROM game_stats WHERE userId = ? AND awaitsAnalysis = 1 '
+        'ORDER BY createdAt DESC LIMIT 20',
+        ['me'],
+      );
+      final detail = plan.map((row) => row['detail']! as String).join(' ');
+      expect(detail, contains('idx_game_stats_user_createdAt'));
+    });
   });
 }

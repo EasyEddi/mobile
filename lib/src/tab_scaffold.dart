@@ -6,6 +6,7 @@ import 'package:lichess_mobile/src/view/home/home_tab_screen.dart';
 import 'package:lichess_mobile/src/view/learn/learn_tab_screen.dart';
 import 'package:lichess_mobile/src/view/more/more_tab_screen.dart';
 import 'package:lichess_mobile/src/view/puzzle/puzzle_tab_screen.dart';
+import 'package:lichess_mobile/src/view/stats/stats_tab_screen.dart';
 import 'package:lichess_mobile/src/view/watch/watch_tab_screen.dart';
 import 'package:lichess_mobile/src/widgets/background.dart';
 import 'package:lichess_mobile/src/widgets/platform.dart'
@@ -180,6 +181,8 @@ class const MainTabScaffold({super.key}) extends ConsumerWidget {
             learnTabInteraction.notifyItemTapped();
           case BottomTab.watch:
             watchTabInteraction.notifyItemTapped();
+          case BottomTab.stats:
+            statsTabInteraction.notifyItemTapped();
           case BottomTab.more:
             moreTabInteraction.notifyItemTapped();
         }
@@ -190,41 +193,39 @@ class const MainTabScaffold({super.key}) extends ConsumerWidget {
   }
 
   Widget _tabBuilder(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        return _MaterialTabView(
-          navigatorKey: homeNavigatorKey,
-          tab: BottomTab.home,
-          builder: (context) => const HomeTabScreen(),
-        );
-      case 1:
-        return _MaterialTabView(
-          navigatorKey: puzzlesNavigatorKey,
-          tab: BottomTab.puzzles,
-          builder: (context) => const PuzzleTabScreen(),
-        );
-      case 2:
-        return _MaterialTabView(
-          navigatorKey: learnNavigatorKey,
-          tab: BottomTab.learn,
-          builder: (context) => const LearnTabScreen(),
-        );
-      case 3:
-        return _MaterialTabView(
-          navigatorKey: watchNavigatorKey,
-          tab: BottomTab.watch,
-          builder: (context) => const WatchTabScreen(),
-        );
-      case 4:
-        return _MaterialTabView(
-          navigatorKey: moreNavigatorKey,
-          tab: BottomTab.more,
-          builder: (context) => const MoreTabScreen(),
-        );
-      default:
-        assert(false, 'Unexpected tab');
-        return const SizedBox.shrink();
-    }
+    final tab = BottomTab.values[index];
+    return switch (tab) {
+      BottomTab.home => _MaterialTabView(
+        navigatorKey: homeNavigatorKey,
+        tab: tab,
+        builder: (context) => const HomeTabScreen(),
+      ),
+      BottomTab.puzzles => _MaterialTabView(
+        navigatorKey: puzzlesNavigatorKey,
+        tab: tab,
+        builder: (context) => const PuzzleTabScreen(),
+      ),
+      BottomTab.learn => _MaterialTabView(
+        navigatorKey: learnNavigatorKey,
+        tab: tab,
+        builder: (context) => const LearnTabScreen(),
+      ),
+      BottomTab.watch => _MaterialTabView(
+        navigatorKey: watchNavigatorKey,
+        tab: tab,
+        builder: (context) => const WatchTabScreen(),
+      ),
+      BottomTab.stats => _MaterialTabView(
+        navigatorKey: statsNavigatorKey,
+        tab: tab,
+        builder: (context) => const StatsTabScreen(),
+      ),
+      BottomTab.more => _MaterialTabView(
+        navigatorKey: moreNavigatorKey,
+        tab: tab,
+        builder: (context) => const MoreTabScreen(),
+      ),
+    };
   }
 }
 

@@ -63,7 +63,7 @@ Future<Database> openAppDatabase(DatabaseFactory dbFactory, String path) {
   return dbFactory.openDatabase(
     path,
     options: OpenDatabaseOptions(
-      version: 9,
+      version: 10,
       onConfigure: (db) async {
         final version = await _getDatabaseVersion(db);
         _logger.info('SQLite version: $version');
@@ -96,6 +96,7 @@ Future<Database> openAppDatabase(DatabaseFactory dbFactory, String path) {
         _createAppLogTableV5(batch);
         _createLearnProgressTableV7(batch);
         _createPracticeProgressTableV8(batch);
+        _createGameStatsTablesV10(batch);
         await batch.commit();
       },
       onUpgrade: (db, oldVersion, newVersion) async {
@@ -122,6 +123,9 @@ Future<Database> openAppDatabase(DatabaseFactory dbFactory, String path) {
         }
         if (oldVersion < 8) {
           _createPracticeProgressTableV8(batch);
+        }
+        if (oldVersion < 10) {
+          _createGameStatsTablesV10(batch);
         }
         await batch.commit();
       },
@@ -281,6 +285,31 @@ void _createPracticeProgressTableV8(Batch batch) {
     nbMoves INTEGER NOT NULL,
     lastModified TEXT NOT NULL,
     syncedAt TEXT
+  )
+    ''');
+}
+
+/// The statistics of the games of a user, and where their sync from the server is at.
+void _createGameStatsTablesV10(Batch batch) {
+  batch.execute('DROP TABLE IF EXISTS game_stats');
+  batch.execute('''
+    CREATE TABLE game_stats(
+    userId TEXT NOT NULL,
+    gameId TEXT NOT NULL,
+    createdAt INTEGER NOT NULL,
+    awaitsAnalysis INTEGER NOT NULL,
+    data TEXT NOT NULL,
+    PRIMARY KEY (userId, gameId)
+  )
+    ''');
+  batch.execute(
+    'CREATE INDEX idx_game_stats_user_createdAt ON game_stats(userId, awaitsAnalysis, createdAt)',
+  );
+  batch.execute('DROP TABLE IF EXISTS game_stats_sync');
+  batch.execute('''
+    CREATE TABLE game_stats_sync(
+    userId TEXT NOT NULL PRIMARY KEY,
+    data TEXT NOT NULL
   )
     ''');
 }
