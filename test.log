@@ -1,0 +1,117 @@
+Resolving dependencies...
+Downloading packages...
+  archive 4.6.0 (4.7.1 available)
+  built_collection 5.1.2 (6.0.0 available)
+  cross_file 0.3.5+5 (0.4.0 available)
+  flutter_local_notifications 22.3.3 (23.0.2 available)
+  flutter_local_notifications_linux 8.0.2 (9.0.0 available)
+  flutter_local_notifications_platform_interface 12.2.0 (13.0.0 available)
+  flutter_local_notifications_web 1.0.0 (2.0.0 available)
+  flutter_local_notifications_windows 3.1.1 (4.0.1 available)
+  image 4.12.0 (4.13.1 available)
+  liquid_glass_widgets 1.17.2 (1.17.3 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  qr 3.0.3 (4.0.1 available)
+  test_api 0.7.14 (0.7.15 available)
+Got dependencies!
+13 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+
+┌─ Shader Warning ─────────────────────────────────────────────────────────────────────────────────┐
+│ [WARNING]                                                                                        │
+│ "/home/runner/.pub-cache/hosted/pub.dev/liquid_glass_widgets-1.17.2/shaders/interactive_indicato │
+│ r.frag": Fragment shader uses texture samplers alongside multiple 'return' statements in         │
+│ `main()`. This has the potential to cause compilation errors during shader compilation on        │
+│ Windows.                                                                                         │
+│ To avoid crashes on Windows, consider removing multiple 'return;' statements in `main()`.See     │
+│ https://github.com/flutter/flutter/issues/190809 for details.                                    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─ Shader Warning ─────────────────────────────────────────────────────────────────────────────────┐
+│ [WARNING]                                                                                        │
+│ "/home/runner/.pub-cache/hosted/pub.dev/liquid_glass_widgets-1.17.2/shaders/progressive_blur.fra │
+│ g": Fragment shader uses texture samplers alongside multiple 'return' statements in `main()`.    │
+│ This has the potential to cause compilation errors during shader compilation on Windows.         │
+│ To avoid crashes on Windows, consider removing multiple 'return;' statements in `main()`.See     │
+│ https://github.com/flutter/flutter/issues/190809 for details.                                    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─ Shader Warning ─────────────────────────────────────────────────────────────────────────────────┐
+│ [WARNING]                                                                                        │
+│ "/home/runner/.pub-cache/hosted/pub.dev/liquid_glass_widgets-1.17.2/shaders/liquid_glass_render. │
+│ frag": Fragment shader uses texture samplers alongside multiple 'return' statements in `main()`. │
+│ This has the potential to cause compilation errors during shader compilation on Windows.         │
+│ To avoid crashes on Windows, consider removing multiple 'return;' statements in `main()`.See     │
+│ https://github.com/flutter/flutter/issues/190809 for details.                                    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─ Shader Warning ─────────────────────────────────────────────────────────────────────────────────┐
+│ [WARNING]                                                                                        │
+│ "/home/runner/.pub-cache/hosted/pub.dev/liquid_glass_widgets-1.17.2/shaders/lightweight_glass.fr │
+│ ag": Fragment shader uses texture samplers alongside multiple 'return' statements in `main()`.   │
+│ This has the potential to cause compilation errors during shader compilation on Windows.         │
+│ To avoid crashes on Windows, consider removing multiple 'return;' statements in `main()`.See     │
+│ https://github.com/flutter/flutter/issues/190809 for details.                                    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+::group::✅ Passing tests
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: whiteWinningChances is 0 for an equal position and symmetric
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: whiteWinningChances clamps centipawns and ranks mates above them
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: whiteWinningChances is null without an eval
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: isSacrifice a knight taking a pawn defended by the queen is a sacrifice
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: isSacrifice a knight moving to a square nobody attacks is not a sacrifice
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: isSacrifice a pawn move is never a sacrifice
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: classifyMoves keeps the judgments of the server
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: classifyMoves the first plies are book moves
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: classifyMoves classifies the moves of the scholar's mate
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: classifyMoves judges the moves itself for a local analysis
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: classifyMoves an only move found is great
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: classifyMoves a move without eval is not classified
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: moveAccuracy is 100 when the move does not lose anything
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: moveAccuracy decreases with the loss
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/move_quality_test.dart: gameAccuracy
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsEntry.fromServerJson reads an analysed game
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsEntry.fromServerJson keeps the moves of a game awaiting an analysis
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsEntry.fromServerJson reads the outcome from the point of view of the user
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsEntry.fromServerJson skips the games that are not counted
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsEntry.fromServerJson survives a JSON round trip
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsSummary counts all the games
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsSummary filters by perf, side and period
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: GameStatsSummary builds a timeline of the analysed games
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_test.dart: bucketStart
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_storage_test.dart: saves and fetches the games of a user
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_storage_test.dart: never replaces an analysed game with a game awaiting an analysis
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_storage_test.dart: saves the sync cursor and the username
+✅ /home/runner/work/mobile/mobile/test/model/game_stats/game_stats_storage_test.dart: deletes the games of a user
+✅ /home/runner/work/mobile/mobile/test/db/openings_database_test.dart: Openings database openings table has index on epd covering fetchFromFen
+✅ /home/runner/work/mobile/mobile/test/db/database_test.dart: App database v6 game table has composite index covering history paging
+✅ /home/runner/work/mobile/mobile/test/db/database_test.dart: App database v8 an upgrade from v7 adds the practice progress table and keeps learn progress
+✅ /home/runner/work/mobile/mobile/test/db/database_test.dart: App database v9 an upgrade from v8 adds the cache and size columns to the http log and keeps entries
+✅ /home/runner/work/mobile/mobile/test/db/database_test.dart: App database v10 has the game stats tables, indexed for the games awaiting an analysis
+✅ /home/runner/work/mobile/mobile/test/model/model_layer_test.dart: no file under lib/src/model imports the view layer
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver a route hiding the tab bar hides it, and fades it in when popped
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver a route pushed above a route hiding the tab bar keeps it hidden
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver a route replacing a route hiding the tab bar keeps it hidden
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver a plain replacement of a route hiding the tab bar keeps it hidden
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver a plain replacement of a route shown with the tab bar leaves it visible
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver popping everything down to the root shows the tab bar
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: TabNavigatorObserver a route that does not hide the tab bar leaves it visible
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: showAdaptiveBottomSheet in a tab navigator over a screen hiding the tab bar, the sheet is in the tab navigator
+✅ /home/runner/work/mobile/mobile/test/tab_navigation_test.dart: showAdaptiveBottomSheet in a tab navigator over a screen shown with the tab bar, the sheet is on the root navigator
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: App loads (variant: TargetPlatform.android)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: App loads (variant: TargetPlatform.iOS)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: App loads with system theme, which defaults to light (variant: TargetPlatform.android)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: App loads with system theme, which defaults to light (variant: TargetPlatform.iOS)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: App will delete a stored authUser on startup if one request return 401 (variant: TargetPlatform.android)
+ClientException: Request to /tournament/featured failed with status 404, uri=/tournament/featured
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: App will delete a stored authUser on startup if one request return 401 (variant: TargetPlatform.iOS)
+ClientException: Request to /tournament/featured failed with status 404, uri=/tournament/featured
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: Bottom navigation (variant: TargetPlatform.android)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: Bottom navigation (variant: TargetPlatform.iOS)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: hiding and showing the tab bar keeps the screens of the tab in place (variant: TargetPlatform.android)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: hiding and showing the tab bar keeps the screens of the tab in place (variant: TargetPlatform.iOS)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: language support (variant: TargetPlatform.android)
+✅ /home/runner/work/mobile/mobile/test/app_test.dart: language support (variant: TargetPlatform.iOS)
+::endgroup::
+
+🎉 55 tests passed.

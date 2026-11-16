@@ -1,0 +1,23 @@
+Resolving dependencies...
+Downloading packages...
+  archive 4.6.0 (4.7.1 available)
+  built_collection 5.1.2 (6.0.0 available)
+  cross_file 0.3.5+5 (0.4.0 available)
+  flutter_local_notifications 22.3.3 (23.0.2 available)
+  flutter_local_notifications_linux 8.0.2 (9.0.0 available)
+  flutter_local_notifications_platform_interface 12.2.0 (13.0.0 available)
+  flutter_local_notifications_web 1.0.0 (2.0.0 available)
+  flutter_local_notifications_windows 3.1.1 (4.0.1 available)
+  image 4.12.0 (4.13.1 available)
+  liquid_glass_widgets 1.17.2 (1.17.3 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  qr 3.0.3 (4.0.1 available)
+  test_api 0.7.14 (0.7.15 available)
+Got dependencies!
+13 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing mobile...                                             
+
+   info • Sort directive sections alphabetically. Try sorting the directives • lib/src/app.dart:36:1 • directives_ordering
+
+1 issue found. (ran in 23.4s)

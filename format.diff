@@ -1,0 +1,47 @@
+diff --git a/lib/src/model/game_stats/game_stats.dart b/lib/src/model/game_stats/game_stats.dart
+index 4cee422..a1fa486 100644
+--- a/lib/src/model/game_stats/game_stats.dart
++++ b/lib/src/model/game_stats/game_stats.dart
+@@ -13,7 +13,11 @@ const kGameStatsPerfs = [
+   Perf.correspondence,
+ ];
+ 
+-enum GameOutcome() { win, draw, loss }
++enum GameOutcome() {
++  win,
++  draw,
++  loss,
++}
+ 
+ /// Where the analysis of a game comes from.
+ enum GameAnalysisSource() {
+@@ -240,7 +244,11 @@ class const GameStatsFilter({
+ }
+ 
+ /// How long a [StatsBucket] of the timeline lasts.
+-enum StatsBucketSize() { day, week, month }
++enum StatsBucketSize() {
++  day,
++  week,
++  month,
++}
+ 
+ /// The statistics of the analysed games of one period of the timeline.
+ class const StatsBucket({
+diff --git a/lib/src/view/stats/stats_tab_screen.dart b/lib/src/view/stats/stats_tab_screen.dart
+index 6838f03..acfd1d6 100644
+--- a/lib/src/view/stats/stats_tab_screen.dart
++++ b/lib/src/view/stats/stats_tab_screen.dart
+@@ -202,7 +202,11 @@ class _BodyState() extends ConsumerState<_Body> {
+ }
+ 
+ /// The side filter choices: [Side] is not nullable in a [PlatformSegmentedControl].
+-enum _SideChoice() { both, white, black }
++enum _SideChoice() {
++  both,
++  white,
++  black,
++}
+ 
+ class const _Filters() extends ConsumerWidget {
+   @override
