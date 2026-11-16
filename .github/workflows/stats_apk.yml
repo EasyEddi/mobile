@@ -96,7 +96,7 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          DEFINES="--dart-define=LICHESS_HOST=lichess.org --dart-define=LICHESS_WS_HOST=socket.lichess.org"
+          DEFINES="--dart-define=LICHESS_HOST=lichess.org --dart-define=LICHESS_WS_HOST=socket.lichess.org --dart-define=STATS_ONLY_APP=true"
           if flutter build apk --profile --target-platform android-arm64 $DEFINES 2>&1 | tee build.log; then
             cp build/app/outputs/flutter-apk/app-profile.apk lichess-statistiken.apk
           else

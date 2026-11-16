@@ -28,6 +28,12 @@ const kLichessTablebaseHost = String.fromEnvironment(
   defaultValue: 'tablebase.lichess.org',
 );
 
+/// Whether the app is built as a standalone statistics app, showing only the statistics tab.
+///
+/// Used by the statistics APK built from a fork (see .github/workflows/stats_apk.yml), which cannot
+/// sign in to lichess.org and is installed next to the official app.
+const kStatsOnlyApp = bool.fromEnvironment('STATS_ONLY_APP');
+
 const kLichessCustomUriSchemeName = 'org.lichess.mobile';
 
 const kLichessClientId = 'lichess_mobile';

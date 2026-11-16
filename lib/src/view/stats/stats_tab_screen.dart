@@ -5,6 +5,7 @@ import 'package:dartchess/dartchess.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:lichess_mobile/src/constants.dart';
 import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
 import 'package:lichess_mobile/src/model/common/id.dart';
 import 'package:lichess_mobile/src/model/common/perf.dart';
@@ -35,7 +36,8 @@ class const StatsTabScreen({super.key}) extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(gameStatsUserProvider);
     return PopScope(
-      canPop: false,
+      // As the home of the standalone statistics app, back closes the app.
+      canPop: kStatsOnlyApp,
       onPopInvokedWithResult: (bool didPop, _) {
         if (!didPop) {
           ref.read(currentBottomTabProvider.notifier).state = BottomTab.home;
@@ -45,7 +47,8 @@ class const StatsTabScreen({super.key}) extends ConsumerWidget {
         appBar: PlatformAppBar(
           title: Text(context.l10n.stats),
           centerTitle: false,
-          actions: const [AccountMenuButton()],
+          // The standalone statistics app cannot sign in.
+          actions: kStatsOnlyApp ? null : const [AccountMenuButton()],
         ),
         body: switch (user) {
           AsyncData(value: final UserId userId) => _Body(key: ValueKey(userId), userId: userId),

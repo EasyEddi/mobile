@@ -32,6 +32,7 @@ import 'package:lichess_mobile/src/service/recap_service.dart';
 import 'package:lichess_mobile/src/service/shared_pgn_service.dart';
 import 'package:lichess_mobile/src/tab_navigation.dart';
 import 'package:lichess_mobile/src/tab_scaffold.dart';
+import 'package:lichess_mobile/src/view/stats/stats_tab_screen.dart';
 import 'package:lichess_mobile/src/theme.dart';
 import 'package:lichess_mobile/src/ui_event_coordinator.dart';
 import 'package:lichess_mobile/src/utils/screen.dart';
@@ -230,7 +231,7 @@ class _AppState() extends ConsumerState<Application> {
           ),
         );
       },
-      home: const MainTabScaffold(),
+      home: kStatsOnlyApp ? const StatsTabScreen() : const MainTabScaffold(),
       navigatorObservers: [rootNavPageRouteObserver, rootNavRouteStackObserver],
     );
   }
